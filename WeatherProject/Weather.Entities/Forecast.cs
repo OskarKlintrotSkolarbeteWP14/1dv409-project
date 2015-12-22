@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace Weather.Entities
 {
-    public class WeatherReport
+    public class Forecast
     {
         public int Id { get; set; }
+        [Required]
+        public DateTime Time { get; set; }
 
         [Required]
-        [StringLength(255)]
-        public string Location { get; set; }
-
-        [Required]
-        public DateTime Timestamp { get; set; }
-
-        public virtual ICollection<Forecast> Forecasts { get; set; }
+        public TypeOfWeather Weather { get; set; }
     }
 }

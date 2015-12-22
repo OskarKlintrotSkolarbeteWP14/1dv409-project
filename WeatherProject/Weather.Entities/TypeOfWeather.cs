@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Weather.Domain
+namespace Weather.Entities
 {
-    public class Class1
+    public enum TypeOfWeather
     {
+        Sun,
+        Cloud,
+        Rain
     }
 }
