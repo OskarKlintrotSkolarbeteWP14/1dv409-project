@@ -11,7 +11,7 @@ namespace Weather.Domain.DataContexts
     public class WeatherReportsDb : DbContext
     {
         public WeatherReportsDb()
-            : base("Data Source = 172.16.214.1; Initial Catalog = 1dv409_oklib08_Weather;Persist Security Info=True;User ID = appUser; Password=1Br@Lösen=rd?")
+            : base("name=Weather.Domain.Properties.Settings.Falken")
         {
             // Empty
         }
