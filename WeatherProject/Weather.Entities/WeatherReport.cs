@@ -9,15 +9,21 @@ namespace Weather.Entities
 {
     public class WeatherReport
     {
+        public WeatherReport(City Location, DateTime Stale, ICollection<Forecast> Forecasts)
+        {
+            this.Location = Location;
+            Timestamp = DateTime.Now;
+            this.Stale = Stale;
+            this.Forecasts = Forecasts.OrderBy(d => d.Time).ToList();
+        }
         public int Id { get; set; }
-
         [Required]
-        [StringLength(255)]
-        public string Location { get; set; }
-
+        public virtual City Location { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
-
+        [Required]
+        public DateTime Stale { get; set; }
+        [Required]
         public virtual ICollection<Forecast> Forecasts { get; set; }
     }
 }
