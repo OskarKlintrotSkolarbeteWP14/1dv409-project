@@ -16,14 +16,17 @@ namespace Weather.Entities
         }
         public Forecast(XElement forecast)
         {
-            Time = (DateTime)forecast.Attribute("from");
+            TimeFrom = (DateTime)forecast.Attribute("from");
+            TimeTo = (DateTime)forecast.Attribute("to");
             Weather = (TypeOfWeather)(int)forecast.Element("symbol").Attribute("number");
             Temperature = (int)forecast.Element("temperature").Attribute("value");
             Period = (int)forecast.Attribute("period");
         }
         public int Id { get; set; }
         [Required]
-        public DateTime Time { get; set; }
+        public DateTime TimeFrom { get; set; }
+        [Required]
+        public DateTime TimeTo { get; set; }
         [Required]
         public TypeOfWeather Weather { get; set; }
         [Required]

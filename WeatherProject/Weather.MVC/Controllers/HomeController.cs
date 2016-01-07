@@ -1,30 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Weather.Domain;
+using Weather.Domain.WebServices;
+using Weather.Entities;
+using Weather.MVC.ViewModels;
 
 namespace Weather.MVC.Controllers
 {
+    
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private IWeatherService _weatherService;
+        private string _success = "Success";
+        private string _error = "Error";
+        public HomeController(IWeatherService weatherService)
         {
-            return View();
+            _weatherService = weatherService;
+        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+
+        public ActionResult Index(HomeIndexViewModel model, string name = null, string region = null, string country = null)
+        {
+            if (!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(region) && !String.IsNullOrEmpty(country))
+            {
+                model.CityToGetWeatherFor.Name = name;
+                model.CityToGetWeatherFor.Region = region;
+                model.CityToGetWeatherFor.Country = country;
+                model.WeatherReport = _weatherService.GetWeatherForecast(model.CityToGetWeatherFor);
+                model.CityToFind = name;
+                return View(model);
+            }
+            return View(model);
         }
 
-        public ActionResult About()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "CityToFind")]HomeIndexViewModel model)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (model.Cities == null && !String.IsNullOrEmpty(model.CityToFind))
+                    {
+                        model.Cities = _weatherService.GetCities(model.CityToFind);
+                        TempData[_error] = model.Cities.Count() == 0 ? "Orten kunde inte hittas." : null;
+                    }
+                    else
+                    {
+                        model.WeatherReport = _weatherService.GetWeatherForecast(model.CityToGetWeatherFor);
+                    }
+                }
+                catch (Exception)
+                {
+                    TempData[_error] = "Något gick fel, försök igen senare.";
+                }
+            }
+            return View(model);
         }
     }
 }

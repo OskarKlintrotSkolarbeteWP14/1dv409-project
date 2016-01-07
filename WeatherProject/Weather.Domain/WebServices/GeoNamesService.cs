@@ -22,16 +22,16 @@ namespace Weather.Domain.WebServices
 
             var request = (HttpWebRequest)WebRequest.Create(uri);
 
-            string json;
+            string jsonString;
             using (var response = request.GetResponse())
             using (var reader = new StreamReader(response.GetResponseStream()))
             {
-                json = reader.ReadToEnd();
+                jsonString = reader.ReadToEnd();
             }
 
-            var geoNamesJson = JsonConvert.DeserializeObject<GeoNamesJson>(json);
-            var geonames = JsonConvert.SerializeObject(geoNamesJson.geonames);
-            return JArray.Parse(geonames).Select(city => new City(city)).ToList();
+            var jsonObject = JObject.Parse(jsonString);
+            IList<JToken> names = jsonObject["geonames"].Children().ToList();
+            return names.Select(city => new City(city));
         }
     }
 }

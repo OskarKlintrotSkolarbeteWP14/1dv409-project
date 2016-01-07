@@ -14,7 +14,7 @@ namespace Weather.Entities
             this.Location = Location;
             Timestamp = DateTime.Now;
             this.Stale = Stale;
-            this.Forecasts = Forecasts.OrderBy(d => d.Time).ToList();
+            this.Forecasts = Forecasts.OrderBy(d => d.TimeFrom).ToList();
         }
         public int Id { get; set; }
         [Required]

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\WeatherReportsDb.cs" />
+    <Compile Include="IWeatherService.cs" />
     <Compile Include="Migrations\201512221739362_InitalCreate.cs" />
     <Compile Include="Migrations\201512221739362_InitalCreate.Designer.cs">
       <DependentUpon>201512221739362_InitalCreate.cs</DependentUpon>
@@ -67,6 +68,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WeatherService.cs" />
+    <Compile Include="WeatherServiceBase.cs" />
     <Compile Include="WebServices\GeoNamesService.cs" />
     <Compile Include="WebServices\IGeoNamesService.cs" />
     <Compile Include="WebServices\IYrService.cs" />

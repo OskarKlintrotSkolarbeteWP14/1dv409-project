@@ -1,0 +1,15 @@
+﻿@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Wohoo!</strong> @TempData["Success"].ToString()
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Fel!</strong> @TempData["Error"].ToString()
+    </div>
+}

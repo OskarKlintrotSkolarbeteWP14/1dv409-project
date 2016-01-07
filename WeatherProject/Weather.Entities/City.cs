@@ -19,6 +19,7 @@ namespace Weather.Entities
             Name = city.Value<string>("name");
             Region= city.Value<string>("adminName1");
             Country = city.Value<string>("countryName");
+            GeonameId = int.Parse(city.Value<string>("geonameId"));
         }
         public int Id { get; set; }
         [Required]
@@ -30,5 +31,7 @@ namespace Weather.Entities
         [Required]
         [StringLength(255)]
         public string Country { get; set; }
+        [Required]
+        public int GeonameId { get; set; }
     }
 }
