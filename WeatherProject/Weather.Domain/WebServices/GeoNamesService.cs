@@ -18,20 +18,27 @@ namespace Weather.Domain.WebServices
     {
         public IEnumerable<City> getCities(string cityName)
         {
-            var uri = string.Format("http://api.geonames.org/searchJSON?name={0}&maxRows=50&username=oklib08", cityName);
-
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-
-            string jsonString;
-            using (var response = request.GetResponse())
-            using (var reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                jsonString = reader.ReadToEnd();
-            }
+                var uri = string.Format("http://api.geonames.org/searchJSON?name={0}&maxRows=50&username=oklib08", cityName);
 
-            var jsonObject = JObject.Parse(jsonString);
-            IList<JToken> names = jsonObject["geonames"].Children().ToList();
-            return names.Select(city => new City(city));
+                var request = (HttpWebRequest)WebRequest.Create(uri);
+
+                string jsonString;
+                using (var response = request.GetResponse())
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    jsonString = reader.ReadToEnd();
+                }
+
+                var jsonObject = JObject.Parse(jsonString);
+                IList<JToken> names = jsonObject["geonames"].Children().ToList();
+                return names.Select(city => new City(city));
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Weather.Domain;
@@ -17,6 +18,7 @@ namespace Weather.MVC.Controllers
         private IWeatherService _weatherService;
         private string _success = "Success";
         private string _error = "Error";
+        private string _errorMessage = "Något gick fel, försök igen senare.";
         public HomeController(IWeatherService weatherService)
         {
             _weatherService = weatherService;
@@ -30,12 +32,20 @@ namespace Weather.MVC.Controllers
         {
             if (!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(region) && !String.IsNullOrEmpty(country))
             {
-                model.CityToGetWeatherFor.Name = name;
-                model.CityToGetWeatherFor.Region = region;
-                model.CityToGetWeatherFor.Country = country;
-                model.WeatherReport = _weatherService.GetWeatherForecast(model.CityToGetWeatherFor);
-                model.CityToFind = name;
-                return View(model);
+                try
+                {
+                    model.CityToGetWeatherFor.Name = name;
+                    model.CityToGetWeatherFor.Region = region;
+                    model.CityToGetWeatherFor.Country = country;
+                    model.WeatherReport = _weatherService.GetWeatherForecast(model.CityToGetWeatherFor);
+                    model.CityToFind = name;
+                    return View(model);
+                }
+                catch (Exception)
+                {
+                    //TempData[_error] = _errorMessage;
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
             }
             return View(model);
         }
@@ -60,7 +70,8 @@ namespace Weather.MVC.Controllers
                 }
                 catch (Exception)
                 {
-                    TempData[_error] = "Något gick fel, försök igen senare.";
+                    //TempData[_error] = _errorMessage;
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
             return View(model);

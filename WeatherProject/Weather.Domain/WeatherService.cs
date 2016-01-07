@@ -25,12 +25,26 @@ namespace Weather.Domain
         }
         public override IEnumerable<City> GetCities(string cityName)
         {
-            return _namesService.getCities(cityName);
+            try
+            {
+                return _namesService.getCities(cityName);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         public override WeatherReport GetWeatherForecast(City city)
         {
-            return _weatherService.getWeatherForecast(city);
+            try
+            {
+                return _weatherService.getWeatherForecast(city);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
         protected override void Dispose(bool disposing)
         {

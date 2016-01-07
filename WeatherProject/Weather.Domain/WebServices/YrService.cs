@@ -15,18 +15,25 @@ namespace Weather.Domain.WebServices
     {
         public WeatherReport getWeatherForecast(City city)
         {
-            var uri = string.Format("http://www.yr.no/place/{0}/{1}/{2}/forecast.xml", city.Country, city.Region, city.Name);
-            var xml = XElement.Load(uri);
-            var xmlForecasts = xml.Element("forecast").Element("tabular").Elements("time");
-            var nextUpdate = DateTime.Parse(xml.Element("meta").Element("nextupdate").Value);
-            var listForecasts = new List<Forecast>();
-
-            foreach (var item in xmlForecasts)
+            try
             {
-                listForecasts.Add(new Forecast(item));
-            }
+                var uri = string.Format("http://www.yr.no/place/{0}/{1}/{2}/forecast.xml", city.Country, city.Region, city.Name);
+                var xml = XElement.Load(uri);
+                var xmlForecasts = xml.Element("forecast").Element("tabular").Elements("time");
+                var nextUpdate = DateTime.Parse(xml.Element("meta").Element("nextupdate").Value);
+                var listForecasts = new List<Forecast>();
 
-            return new WeatherReport(city, nextUpdate, listForecasts);
+                foreach (var item in xmlForecasts)
+                {
+                    listForecasts.Add(new Forecast(item));
+                }
+
+                return new WeatherReport(city, nextUpdate, listForecasts);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }
