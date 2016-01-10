@@ -28,49 +28,28 @@ namespace Weather.Domain
         }
         public IEnumerable<City> GetCities(string cityName)
         {
-            try
-            {
-                return _namesService.getCities(cityName);
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            return _namesService.getCities(cityName);
         }
 
         public WeatherReport GetWeatherReport(City city)
         {
-            try
+            var currentWeatherReport = _repository.GetWeatherReport(city);
+            if (!currentWeatherReport.isStale())
             {
-                var currentWeatherReport = _repository.GetWeatherReport(city);
-                if (!currentWeatherReport.isStale())
-                {
-                    return currentWeatherReport;
-                }
-                var weatherReport = _weatherService.getWeatherForecast(city);
-                SaveWeatherReport(weatherReport);
-                return weatherReport;
+                return currentWeatherReport;
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var weatherReport = _weatherService.getWeatherForecast(city);
+            SaveWeatherReport(weatherReport);
+            return weatherReport;
         }
         public void SaveWeatherReport(WeatherReport weatherReport)
         {
-            try
+            var currentWeatherReport = _repository.GetWeatherReport(weatherReport);
+            if (currentWeatherReport.isEmpty() || currentWeatherReport.isStale())
             {
-                var currentWeatherReport = _repository.GetWeatherReport(weatherReport);
-                if (currentWeatherReport.isEmpty() || currentWeatherReport.isStale())
-                {
-                    weatherReport.Id = currentWeatherReport.Id;
-                    _repository.AddOrUpdateWeatherReport(weatherReport);
-                    _repository.Save();
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
+                weatherReport.Id = currentWeatherReport.Id;
+                _repository.AddOrUpdateWeatherReport(weatherReport);
+                _repository.Save();
             }
         }
         #region IDisposable Support

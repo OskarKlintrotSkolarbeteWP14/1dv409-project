@@ -23,10 +23,9 @@ namespace Weather.Domain.Model.Repositories
             {
                 var entity = _context.WeatherReports.Find(weatherReport.Id);
                 entity.Forecasts = weatherReport.Forecasts;
-                entity.Location = weatherReport.Location;
                 entity.Stale = weatherReport.Stale;
+                entity.Location = entity.Location; // Entity isn't valid without this
                 entity.Timestamp = weatherReport.Timestamp;
-                _context.Entry(entity).State = EntityState.Modified;
             }
         }
 
