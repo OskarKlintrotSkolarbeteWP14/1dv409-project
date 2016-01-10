@@ -53,15 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContexts\WeatherReportsDb.cs" />
+    <Compile Include="DAL\WeatherReportsContext.cs" />
+    <Compile Include="DAL\WeatherReportsInitializer.cs" />
     <Compile Include="IWeatherService.cs" />
     <Compile Include="Migrations\201512221739362_InitalCreate.cs" />
     <Compile Include="Migrations\201512221739362_InitalCreate.Designer.cs">
       <DependentUpon>201512221739362_InitalCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\geonames.cs" />
-    <Compile Include="Model\GeoNamesJson.cs" />
+    <Compile Include="Model\Repositories\IWeatherReportsRepository.cs" />
+    <Compile Include="Model\Repositories\WeatherReportsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,7 +70,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="WeatherService.cs" />
-    <Compile Include="WeatherServiceBase.cs" />
     <Compile Include="WebServices\GeoNamesService.cs" />
     <Compile Include="WebServices\IGeoNamesService.cs" />
     <Compile Include="WebServices\IYrService.cs" />
@@ -99,7 +99,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataContexts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

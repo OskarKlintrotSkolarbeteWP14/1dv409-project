@@ -7,6 +7,7 @@ namespace Weather.Domain
     public interface IWeatherService : IDisposable
     {
         IEnumerable<City> GetCities(string cityName);
-        WeatherReport GetWeatherForecast(City city);
+        WeatherReport GetWeatherReport(City city);
+        void SaveWeatherReport(WeatherReport weatherReport);
     }
 }

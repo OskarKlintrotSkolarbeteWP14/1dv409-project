@@ -32,7 +32,7 @@
             foreach (var city in Model.Cities)
             {
                 <p>
-                    @Html.ActionLink(String.Format("{0}, {1}, {2}", city.Name, city.Region, city.Country), null, new { name = city.Name, region = city.Region, country = city.Country })
+                    @Html.ActionLink(String.Format("{0}, {1}, {2}", city.Name, city.Region, city.Country), null, new { geonameid = city.GeonameId, name = city.Name, region = city.Region, country = city.Country })
                 </p>
             }
         }

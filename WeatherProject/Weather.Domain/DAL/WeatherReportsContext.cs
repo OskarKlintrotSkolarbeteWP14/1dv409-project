@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Weather.Entities;
 
-namespace Weather.Domain.DataContexts
+namespace Weather.Domain.DAL
 {
-    public class WeatherReportsDb : DbContext
+    public class WeatherReportsContext : DbContext
     {
-        public WeatherReportsDb()
+        public WeatherReportsContext()
             //: base("name=Weather.Domain.Properties.Settings.Falken")
             : base("name=Weather.MVC.Properties.Settings.Falken")
         {
@@ -23,5 +23,7 @@ namespace Weather.Domain.DataContexts
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<WeatherReport> WeatherReports { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Forecast> Forecasts { get; set; }
     }
 }
