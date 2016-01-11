@@ -37,7 +37,11 @@ namespace Weather.MVC.Controllers
                     model.CityToFind = name;
                     return View(model);
                 }
-                catch (Exception)
+                catch (InvalidOperationException e) // This exception is thrown when something fails with the EF and that causes a 500
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+                catch (Exception e)
                 {
                     //TempData[_error] = _errorMessage;
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -64,7 +68,11 @@ namespace Weather.MVC.Controllers
                         model.WeatherReport = _service.GetWeatherReport(model.CityToGetWeatherFor);
                     }
                 }
-                catch (Exception)
+                catch (InvalidOperationException e) // This exception is thrown when something fails with the EF and that causes a 500
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+                catch (Exception e)
                 {
                     //TempData[_error] = _errorMessage;
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
